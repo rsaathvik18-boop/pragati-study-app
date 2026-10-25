@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: pragati-study-app
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: SECRET_KEY
+        generateValue: true
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pragati-db
+          property: connectionString
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4.1-mini
+databases:
+  - name: pragati-db
+    databaseName: pragati
+    user: pragati_user
